@@ -5,8 +5,12 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -50,6 +54,9 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
     ViewPager mViewPager;
     private Uri imageUri;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+    private static final int TWO_MINUTES = 1000 * 60 * 2;
+    private Location location;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +72,7 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
+        getLocation();
     }
 
 
@@ -190,28 +198,103 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        /*ergergreg*/
-        switch (requestCode) {
-            //Si l'activité était une prise de photo
-            case CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE:
-                if (resultCode == Activity.RESULT_OK) {
-                    Uri selectedImage = imageUri;
 
-                    getContentResolver().notifyChange(selectedImage, null);
-                    //ImageView imageView = (ImageView) findViewById(R.id.imageView);
-                    ContentResolver cr = getContentResolver();
-                    Bitmap bitmap;
-                    try {
-                        bitmap = android.provider.MediaStore.Images.Media.getBitmap(cr, selectedImage);
+        if(requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE
+                && resultCode == Activity.RESULT_OK
+                && imageUri != null) {
 
+            Intent intent = new Intent(this, PictureActivity.class);
+            intent.putExtra("URI", imageUri.toString());
+            intent.putExtra("latitude", location.getLatitude());
+            intent.putExtra("longitude", location.getLongitude());
+            intent.putExtra("altitude", location.getAltitude());
+            intent.putExtra("Username", "toto");
+            startActivity(intent);
 
-                        //Affichage de l'infobulle
-                        Toast.makeText(this, selectedImage.toString(), Toast.LENGTH_LONG).show();
-                    } catch (Exception e) {
-                        Toast.makeText(this, "Failed to load", Toast.LENGTH_SHORT).show();
-                        Log.e("Camera", e.toString());
-                    }
-                }
+        }
+    }
+
+    // GPS
+
+    private void getLocation(){
+        // Acquire a reference to the system Location Manager
+        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        String locationProvider = LocationManager.NETWORK_PROVIDER;
+
+        Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+        processNewLocation(lastKnownLocation);
+
+        // Define a listener that responds to location updates
+        LocationListener locationListener = new LocationListener() {
+            public void onLocationChanged(Location location) {
+                // Called when a new location is found by the network location provider.
+                processNewLocation(location);
+            }
+
+            public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+            public void onProviderEnabled(String provider) {}
+
+            public void onProviderDisabled(String provider) {}
+        };
+
+// Register the listener with the Location Manager to receive location updates
+        locationManager.requestLocationUpdates(locationProvider, 0, 0, locationListener);
+    }
+    protected boolean isBetterLocation(Location location, Location currentBestLocation) {
+        if (currentBestLocation == null) {
+            // A new location is always better than no location
+            return true;
+        }
+
+        // Check whether the new location fix is newer or older
+        long timeDelta = location.getTime() - currentBestLocation.getTime();
+        boolean isSignificantlyNewer = timeDelta > TWO_MINUTES;
+        boolean isSignificantlyOlder = timeDelta < -TWO_MINUTES;
+        boolean isNewer = timeDelta > 0;
+
+        // If it's been more than two minutes since the current location, use the new location
+        // because the user has likely moved
+        if (isSignificantlyNewer) {
+            return true;
+            // If the new location is more than two minutes older, it must be worse
+        } else if (isSignificantlyOlder) {
+            return false;
+        }
+
+        // Check whether the new location fix is more or less accurate
+        int accuracyDelta = (int) (location.getAccuracy() - currentBestLocation.getAccuracy());
+        boolean isLessAccurate = accuracyDelta > 0;
+        boolean isMoreAccurate = accuracyDelta < 0;
+        boolean isSignificantlyLessAccurate = accuracyDelta > 200;
+
+        // Check if the old and new location are from the same provider
+        boolean isFromSameProvider = isSameProvider(location.getProvider(),
+                currentBestLocation.getProvider());
+
+        // Determine location quality using a combination of timeliness and accuracy
+        if (isMoreAccurate) {
+            return true;
+        } else if (isNewer && !isLessAccurate) {
+            return true;
+        } else if (isNewer && !isSignificantlyLessAccurate && isFromSameProvider) {
+            return true;
+        }
+        return false;
+    }
+
+    /** Checks whether two providers are the same */
+    private boolean isSameProvider(String provider1, String provider2) {
+        if (provider1 == null) {
+            return provider2 == null;
+        }
+        return provider1.equals(provider2);
+    }
+
+    private void processNewLocation(Location location){
+        if(location!=null) {
+            this.location = location;
+            System.out.println(location.getAltitude() + " " + location.getLatitude() + " " + location.getLongitude());
         }
     }
 }

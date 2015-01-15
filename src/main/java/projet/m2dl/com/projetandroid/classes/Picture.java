@@ -10,7 +10,9 @@ import java.util.Date;
 public class Picture {
 
     private Bitmap picture;
-    private String gpsCoordinate;
+    private double latitude;
+    private double longitude;
+    private double altitude;
     private Date date;
     private String user;
     private int pointInteret_x;
@@ -23,12 +25,28 @@ public class Picture {
         this.picture = picture;
     }
 
-    public String getGpsCoordinate() {
-        return gpsCoordinate;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setGpsCoordinate(String gpsCoordinate) {
-        this.gpsCoordinate = gpsCoordinate;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getAltitude() {
+        return altitude;
+    }
+
+    public void setAltitude(double altitude) {
+        this.altitude = altitude;
     }
 
     public Bitmap getPicture() {
