@@ -59,8 +59,7 @@ public class PictureActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_picture, menu);
+        getMenuInflater().inflate(R.menu.menu_picture, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -72,7 +71,8 @@ public class PictureActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_help) {
+            displayDialog("Selectionner le point d'interet avec votre doigt.");
             return true;
         }
 
@@ -86,14 +86,6 @@ public class PictureActivity extends ActionBarActivity {
             imageView.setImageBitmap(bitmap);
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    public void help(View v){
-        switch (ETAT){
-            case INIT:
-                displayDialog("Selectionner le point d'interet avec votre doigt.");
-
         }
     }
 
