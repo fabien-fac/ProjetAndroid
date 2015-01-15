@@ -10,9 +10,9 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -29,8 +29,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import projet.m2dl.com.projetandroid.fragments.HomeFragment;
 
-public class MainActivity extends ActionBarActivity {
+
+public class MainActivity extends ActionBarActivity implements HomeFragment.OnFragmentInteractionListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -88,6 +90,11 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -101,9 +108,16 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            Fragment fragment;
+            switch (position){
+                case 0:
+                    fragment = new HomeFragment();
+                    break;
+                default:
+                    fragment = PlaceholderFragment.newInstance(position + 1);
+
+            }
+            return fragment;
         }
 
         @Override
@@ -184,7 +198,7 @@ public class MainActivity extends ActionBarActivity {
                     Uri selectedImage = imageUri;
 
                     getContentResolver().notifyChange(selectedImage, null);
-                    ImageView imageView = (ImageView) findViewById(R.id.imageView);
+                    //ImageView imageView = (ImageView) findViewById(R.id.imageView);
                     ContentResolver cr = getContentResolver();
                     Bitmap bitmap;
                     try {
