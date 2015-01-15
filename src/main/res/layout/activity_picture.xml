@@ -10,4 +10,13 @@
         android:id="@+id/picture_imageview"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
+
+    <view
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        class="projet.m2dl.com.projetandroid.classes.CustomDrawableView"
+        android:id="@+id/drawableView"
+        android:layout_alignBottom="@+id/picture_imageview"
+        android:layout_alignRight="@+id/picture_imageview"
+        android:layout_alignEnd="@+id/picture_imageview"/>
 </RelativeLayout>
