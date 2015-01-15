@@ -176,6 +176,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        /*ergergreg*/
         switch (requestCode) {
             //Si l'activité était une prise de photo
             case CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE:
