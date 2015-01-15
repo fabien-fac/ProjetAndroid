@@ -1,13 +1,21 @@
 package projet.m2dl.com.projetandroid.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import projet.m2dl.com.projetandroid.MainActivity;
 import projet.m2dl.com.projetandroid.R;
 
 /**
@@ -27,7 +35,8 @@ public class HomeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private String pseudo = "";
+    private View rootView;
     private OnFragmentInteractionListener mListener;
 
     /**
@@ -59,13 +68,60 @@ public class HomeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        /*LinearLayout root = (LinearLayout) getActivity().findViewById(R.id.action_bar_root);
+
+        TextView txtPseudo = (TextView) root.findViewById(R.id.txtPseudo);
+        txtPseudo.setOnTouchListener(displayPseudo);*/
+
     }
+
+    public View.OnTouchListener displayPseudo = new View.OnTouchListener() {
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+
+                alert.setTitle("Pseudo");
+                alert.setMessage("Veuillez renseigner votre pseudo");
+
+                // Set an EditText view to get user input
+                final EditText input = new EditText(getActivity());
+
+                alert.setView(input);
+
+                alert.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        String value = input.getText().toString();
+                        pseudo = value;
+                        TextView tv = (TextView) rootView.findViewById(R.id.txtPseudo);
+                        tv.setText(pseudo);
+
+                    }
+                });
+
+                alert.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Canceled.
+                    }
+                });
+
+                alert.show();
+            }
+            return true;
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        rootView = inflater.inflate(R.layout.fragment_home,
+                container, false);
+        TextView txtPseudo = (TextView) rootView.findViewById(R.id.txtPseudo);
+        txtPseudo.setOnTouchListener(displayPseudo);
+
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -84,6 +140,7 @@ public class HomeFragment extends Fragment {
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+
     }
 
     @Override

@@ -4,8 +4,11 @@ import java.io.File;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Location;
@@ -27,14 +30,16 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.widget.EditText;
 import projet.m2dl.com.projetandroid.fragments.HomeFragment;
-
+import projet.m2dl.com.projetandroid.fragments.SignInDialog;
 
 public class MainActivity extends ActionBarActivity implements HomeFragment.OnFragmentInteractionListener {
 
@@ -56,7 +61,7 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
     private static final int TWO_MINUTES = 1000 * 60 * 2;
     private Location location;
-
+    private String pseudo = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,14 +78,6 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         getLocation();
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
     }
 
     @Override
@@ -102,7 +99,6 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
     public void onFragmentInteraction(Uri uri) {
 
     }
-
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
