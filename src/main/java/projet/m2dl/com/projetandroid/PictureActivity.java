@@ -12,11 +12,15 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import java.io.IOException;
+import java.util.Date;
+
+import projet.m2dl.com.projetandroid.classes.Picture;
 
 
 public class PictureActivity extends ActionBarActivity {
@@ -31,19 +35,23 @@ public class PictureActivity extends ActionBarActivity {
     private int ETAT = 0;
     private final int INIT = 0;
     private final int DESC = 1;
+    private Picture picture;
+    private MenuItem btnValidPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_picture);
 
         initComponents();
         getData();
         setPicture();
+
     }
 
     private void initComponents() {
-        imageView = (ImageView)findViewById(R.id.picture_imageview);
+        imageView = (ImageView) findViewById(R.id.picture_imageview);
     }
 
     private void getData() {
@@ -59,8 +67,9 @@ public class PictureActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_picture, menu);
+        getMenuInflater().inflate(R.menu.menu_picture, menu);
+        btnValidPosition = menu.findItem(R.id.action_valid);
+        btnValidPosition.setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -70,13 +79,17 @@ public class PictureActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id){
+            case R.id.action_help:
+                displayDialog("Selectionner le point d'interet avec votre doigt puis validez votre choix.");
+                break;
+            case R.id.action_valid:
+                processTreeStep();
+                break;
         }
 
-        return super.onOptionsItemSelected(item);
+
+        return true;
     }
 
     private void setPicture() {
@@ -84,29 +97,43 @@ public class PictureActivity extends ActionBarActivity {
         try {
             Bitmap bitmap = android.provider.MediaStore.Images.Media.getBitmap(cr, uriImage);
             imageView.setImageBitmap(bitmap);
+            createPicture(bitmap);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void help(View v){
-        switch (ETAT){
-            case INIT:
-                displayDialog("Selectionner le point d'interet avec votre doigt.");
-
-        }
-    }
-
-    private void displayDialog(String text){
+    private void displayDialog(String text) {
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setTitle("Aide");
         alertDialog.setMessage(text);
         alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-// here you can add functions
+
             }
         });
         alertDialog.setIcon(android.R.drawable.ic_menu_help);
         alertDialog.show();
+    }
+
+    private void createPicture(Bitmap bitmap) {
+        picture = new Picture(bitmap);
+
+        picture.setAltitude(altitude);
+        picture.setLatitude(latitude);
+        picture.setLongitude(longitude);
+        picture.setDate(new Date());
+    }
+
+    public void setCoordinatesInterest(float pos_x, float pos_y){
+        picture.setPointInteret_x(pos_x);
+        picture.setPointInteret_y(pos_y);
+        btnValidPosition.setVisible(true);
+    }
+
+    public void processTreeStep(){
+        btnValidPosition.setVisible(false);
+
+        //TODO
     }
 }

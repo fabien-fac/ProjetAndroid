@@ -11,15 +11,12 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
-    <ImageButton
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:id="@+id/imageButton2"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/question_mark"
-        android:scaleType="fitXY"
-        android:background="@android:color/transparent"
-        android:onClick="help"
-        />
+    <view
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        class="projet.m2dl.com.projetandroid.classes.CustomDrawableView"
+        android:id="@+id/drawableView"
+        android:layout_alignBottom="@+id/picture_imageview"
+        android:layout_alignRight="@+id/picture_imageview"
+        android:layout_alignEnd="@+id/picture_imageview"/>
 </RelativeLayout>

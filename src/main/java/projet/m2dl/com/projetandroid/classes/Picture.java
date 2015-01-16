@@ -15,8 +15,8 @@ public class Picture {
     private double altitude;
     private Date date;
     private String user;
-    private int pointInteret_x;
-    private int pointInteret_y;
+    private float pointInteret_x;
+    private float pointInteret_y;
     private int pointInteret_hight;
     private int pointInteret_weight;
     private String commentaire;
@@ -73,22 +73,6 @@ public class Picture {
         this.user = user;
     }
 
-    public int getPointInteret_x() {
-        return pointInteret_x;
-    }
-
-    public void setPointInteret_x(int pointInteret_x) {
-        this.pointInteret_x = pointInteret_x;
-    }
-
-    public int getPointInteret_y() {
-        return pointInteret_y;
-    }
-
-    public void setPointInteret_y(int pointInteret_y) {
-        this.pointInteret_y = pointInteret_y;
-    }
-
     public int getPointInteret_hight() {
         return pointInteret_hight;
     }
@@ -111,5 +95,21 @@ public class Picture {
 
     public void setCommentaire(String commentaire) {
         this.commentaire = commentaire;
+    }
+
+    public float getPointInteret_x() {
+        return pointInteret_x;
+    }
+
+    public void setPointInteret_x(float pointInteret_x) {
+        this.pointInteret_x = pointInteret_x;
+    }
+
+    public float getPointInteret_y() {
+        return pointInteret_y;
+    }
+
+    public void setPointInteret_y(float pointInteret_y) {
+        this.pointInteret_y = pointInteret_y;
     }
 }
