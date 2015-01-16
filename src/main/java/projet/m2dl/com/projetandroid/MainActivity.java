@@ -183,11 +183,16 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
         //Création d'un intent
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
 
-        File pictureDirectory = new File("BioPic");
-        pictureDirectory.mkdir();
+        String dirName = Environment.getExternalStorageDirectory()+File.separator+"BioPic";
+        File directory = new File(dirName);
+        if(!directory.exists()){
+            directory.mkdirs();
+        }
 
+        String fileName = "BioPic" + (new Date()).toString() + ".jpg";
+        fileName = fileName.replaceAll(" ", "-");
         //Création du fichier image
-        File photo = new File(Environment.getExternalStorageDirectory(), "Biopic/BioPic"+(new Date()).toString());
+        File photo = new File(directory, fileName);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photo));
         imageUri = Uri.fromFile(photo);
 
@@ -210,7 +215,6 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
             intent.putExtra("altitude", location.getAltitude());
             intent.putExtra("Username", "toto");
             startActivity(intent);
-
         }
     }
 
