@@ -1,6 +1,7 @@
 package projet.m2dl.com.projetandroid;
 
 import java.io.File;
+import java.util.Date;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -186,8 +187,11 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
         //Création d'un intent
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
 
+        File pictureDirectory = new File("BioPic");
+        pictureDirectory.mkdir();
+
         //Création du fichier image
-        File photo = new File(Environment.getExternalStorageDirectory(), "Pic.jpg");
+        File photo = new File(Environment.getExternalStorageDirectory(), "Biopic/BioPic"+(new Date()).toString());
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photo));
         imageUri = Uri.fromFile(photo);
 
