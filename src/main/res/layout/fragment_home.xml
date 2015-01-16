@@ -15,16 +15,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="4dp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/textView2"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="38dp" />
-
     <ImageButton
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -36,4 +26,14 @@
         android:background="@android:color/transparent"
         android:onClick="takePicture"
         android:layout_marginBottom="4dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Entrez votre pseudo"
+        android:id="@+id/txtPseudo"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"/>
+
 </RelativeLayout>

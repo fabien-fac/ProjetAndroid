@@ -1,13 +1,22 @@
 package projet.m2dl.com.projetandroid.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import projet.m2dl.com.projetandroid.MainActivity;
 import projet.m2dl.com.projetandroid.R;
 
 /**
@@ -27,7 +36,8 @@ public class HomeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private String pseudo = "Entrez votre pseudo";
+    private View rootView;
     private OnFragmentInteractionListener mListener;
 
     /**
@@ -59,13 +69,76 @@ public class HomeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        /*LinearLayout root = (LinearLayout) getActivity().findViewById(R.id.action_bar_root);
+
+        TextView txtPseudo = (TextView) root.findViewById(R.id.txtPseudo);
+        txtPseudo.setOnTouchListener(displayPseudo);*/
+
+    }
+
+    public View.OnTouchListener OnTouchPseudo = new View.OnTouchListener() {
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                displayPseudo();
+            }
+            return true;
+        }
+    };
+
+    private void displayPseudo (){
+        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+
+        alert.setTitle("Pseudo");
+        alert.setMessage("Veuillez renseigner votre pseudo");
+
+        // Set an EditText view to get user input
+        final EditText input = new EditText(getActivity());
+        if (!pseudo.equals("Entrez votre pseudo")){
+            input.setText(pseudo);
+        }
+        input.setHint("Entrez votre pseudo");
+        alert.setView(input);
+
+        alert.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                if (pseudoValide(input.getText().toString())){
+                    pseudo = input.getText().toString();
+                    TextView tv = (TextView) rootView.findViewById(R.id.txtPseudo);
+                    tv.setText(pseudo);
+                } else {
+                    Toast.makeText(getActivity(), "Votre pseudo doit contenir au moins 2 caractères",
+                            Toast.LENGTH_LONG).show();
+                    displayPseudo();
+
+                }
+            }
+        });
+
+        alert.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Canceled.
+            }
+        });
+
+        alert.show();
+    }
+
+    private boolean pseudoValide(String pseudo){
+        return pseudo.length()>1;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        rootView = inflater.inflate(R.layout.fragment_home,
+                container, false);
+        TextView txtPseudo = (TextView) rootView.findViewById(R.id.txtPseudo);
+        txtPseudo.setOnTouchListener(OnTouchPseudo);
+
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -84,6 +157,7 @@ public class HomeFragment extends Fragment {
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+
     }
 
     @Override
