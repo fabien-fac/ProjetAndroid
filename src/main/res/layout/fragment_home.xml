@@ -28,10 +28,10 @@
         android:layout_marginBottom="4dp"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="MonPseudo"
+        android:text="Entrez votre pseudo"
         android:id="@+id/txtPseudo"
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"/>

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import projet.m2dl.com.projetandroid.MainActivity;
 import projet.m2dl.com.projetandroid.R;
@@ -35,7 +36,7 @@ public class HomeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private String pseudo = "";
+    private String pseudo = "Entrez votre pseudo";
     private View rootView;
     private OnFragmentInteractionListener mListener;
 
@@ -75,42 +76,58 @@ public class HomeFragment extends Fragment {
 
     }
 
-    public View.OnTouchListener displayPseudo = new View.OnTouchListener() {
+    public View.OnTouchListener OnTouchPseudo = new View.OnTouchListener() {
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-
-                alert.setTitle("Pseudo");
-                alert.setMessage("Veuillez renseigner votre pseudo");
-
-                // Set an EditText view to get user input
-                final EditText input = new EditText(getActivity());
-
-                alert.setView(input);
-
-                alert.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        String value = input.getText().toString();
-                        pseudo = value;
-                        TextView tv = (TextView) rootView.findViewById(R.id.txtPseudo);
-                        tv.setText(pseudo);
-
-                    }
-                });
-
-                alert.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        // Canceled.
-                    }
-                });
-
-                alert.show();
+                displayPseudo();
             }
             return true;
         }
     };
+
+    private void displayPseudo (){
+        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+
+        alert.setTitle("Pseudo");
+        alert.setMessage("Veuillez renseigner votre pseudo");
+
+        // Set an EditText view to get user input
+        final EditText input = new EditText(getActivity());
+        if (!pseudo.equals("Entrez votre pseudo")){
+            input.setText(pseudo);
+        }
+        input.setHint("Entrez votre pseudo");
+        alert.setView(input);
+
+        alert.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                if (pseudoValide(input.getText().toString())){
+                    pseudo = input.getText().toString();
+                    TextView tv = (TextView) rootView.findViewById(R.id.txtPseudo);
+                    tv.setText(pseudo);
+                } else {
+                    Toast.makeText(getActivity(), "Votre pseudo doit contenir au moins 2 caractères",
+                            Toast.LENGTH_LONG).show();
+                    displayPseudo();
+
+                }
+            }
+        });
+
+        alert.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Canceled.
+            }
+        });
+
+        alert.show();
+    }
+
+    private boolean pseudoValide(String pseudo){
+        return pseudo.length()>1;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -119,7 +136,7 @@ public class HomeFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_home,
                 container, false);
         TextView txtPseudo = (TextView) rootView.findViewById(R.id.txtPseudo);
-        txtPseudo.setOnTouchListener(displayPseudo);
+        txtPseudo.setOnTouchListener(OnTouchPseudo);
 
         return rootView;
     }
