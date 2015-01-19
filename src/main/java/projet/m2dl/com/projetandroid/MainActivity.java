@@ -208,11 +208,21 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
                 && resultCode == Activity.RESULT_OK
                 && imageUri != null) {
 
+            Double latitude = 0.0;
+            Double longitude = 0.0;
+            Double altitude = 0.0;
+
+            if(location != null){
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
+                altitude = location.getAltitude();
+            }
+
             Intent intent = new Intent(this, PictureActivity.class);
             intent.putExtra("URI", imageUri.toString());
-            intent.putExtra("latitude", location.getLatitude());
-            intent.putExtra("longitude", location.getLongitude());
-            intent.putExtra("altitude", location.getAltitude());
+            intent.putExtra("latitude", latitude);
+            intent.putExtra("longitude", longitude);
+            intent.putExtra("altitude", altitude);
             intent.putExtra("Username", "toto");
             startActivity(intent);
         }

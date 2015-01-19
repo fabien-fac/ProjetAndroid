@@ -18,8 +18,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 
+import projet.m2dl.com.projetandroid.classes.LeafParser;
 import projet.m2dl.com.projetandroid.classes.Picture;
 
 
@@ -133,6 +135,10 @@ public class PictureActivity extends ActionBarActivity {
 
     public void processTreeStep(){
         btnValidPosition.setVisible(false);
+        InputStream inputStream = getResources().openRawResource(R.raw.tree);
+
+        LeafParser parser = new LeafParser();
+        parser.parseXmlInputStream(inputStream);
 
         //TODO
     }
