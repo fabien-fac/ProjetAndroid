@@ -5,7 +5,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -25,7 +24,7 @@ public class LeafParser {
             Document doc = dBuilder.parse(xmlInputStream);
 
             Leaf leaf = new Leaf("root", new ArrayList<Leaf>());
-            parse(doc, leaf, doc.getDocumentElement());
+            parse(leaf, doc.getDocumentElement());
 
             for(Leaf l : leaf.getChildren()){
                 displayLeaf(l, 0);
@@ -41,7 +40,7 @@ public class LeafParser {
 
     }
 
-    private Leaf parse(final Document doc, Leaf leaf, final Element e) {
+    private Leaf parse(Leaf leaf, final Element e) {
         final NodeList children = e.getChildNodes();
 
         for (int i = 0; i < children.getLength(); i++) {
@@ -49,10 +48,10 @@ public class LeafParser {
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 if(node.hasChildNodes()){
                     if(node.getNodeName().equals("leaf")){
-                        leaf.getChildren().add(parse(doc, new Leaf("", new ArrayList<Leaf>(), leaf), (Element) node));
+                        leaf.getChildren().add(parse(new Leaf("", new ArrayList<Leaf>(), leaf), (Element) node));
                     }
                     else if(node.getNodeName().equals("children")){
-                        leaf.setChildren(parse(doc, new Leaf(leaf.getName(), new ArrayList<Leaf>(), leaf), (Element) node).getChildren());
+                        leaf.setChildren(parse(new Leaf(leaf.getName(), new ArrayList<Leaf>(), leaf), (Element) node).getChildren());
                     }
                     else if(node.getNodeName().equals("name")){
                         String name = node.getFirstChild().getNodeValue().trim();
@@ -72,7 +71,7 @@ public class LeafParser {
             System.out.print("--");
         }
         if(deep > 0){
-            System.out.print("|-- ");
+            System.out.print("| ");
         }
         System.out.println(leaf.getName() + " (father : " + leaf.getFather().getName()+ ")");
         for(Leaf l : leaf.getChildren()){
