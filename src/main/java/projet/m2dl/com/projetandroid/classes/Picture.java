@@ -10,9 +10,9 @@ import java.util.Date;
 public class Picture {
 
     private Bitmap picture;
-    private double latitude;
-    private double longitude;
-    private double altitude;
+    private double latitude = 0.0;
+    private double longitude = 0.0;
+    private double altitude = 0.0;
     private Date date;
     private String user;
     private float pointInteret_x;
@@ -20,9 +20,14 @@ public class Picture {
     private int pointInteret_hight;
     private int pointInteret_weight;
     private String commentaire;
+    private String destinataire;
 
     public Picture(Bitmap picture) {
         this.picture = picture;
+    }
+
+    public Picture() {
+
     }
 
     public double getLatitude() {
@@ -111,5 +116,13 @@ public class Picture {
 
     public void setPointInteret_y(float pointInteret_y) {
         this.pointInteret_y = pointInteret_y;
+    }
+
+    public String getDestinataire() {
+        return destinataire;
+    }
+
+    public void setDestinataire(String destinataire) {
+        this.destinataire = destinataire;
     }
 }

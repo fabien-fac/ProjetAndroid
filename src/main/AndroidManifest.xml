@@ -24,6 +24,10 @@
             android:name=".PictureActivity"
             android:label="@string/title_activity_picture" >
         </activity>
+        <activity
+            android:name=".fragments.SendActivity"
+            android:label="@string/title_activity_send" >
+        </activity>
     </application>
 
 </manifest>
