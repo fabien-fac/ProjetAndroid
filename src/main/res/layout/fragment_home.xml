@@ -5,9 +5,7 @@
     android:layout_height="match_parent"
     android:background="#8cc63e"
     tools:context="projet.m2dl.com.projetandroid.fragments.HomeFragment">
-
     <!-- TODO: Update blank fragment layout -->
-
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,7 +13,6 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:src="@drawable/leaf2"/>
-
     <ImageButton
         android:layout_width="150dp"
         android:layout_height="150dp"
@@ -27,17 +24,30 @@
         android:background="@android:color/transparent"
         android:onClick="takePicture"
         />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Entrez votre pseudo"
         android:id="@+id/txtPseudo"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"/>
-
-    />
-
-]]>
+        android:ems="10"
+        android:ellipsize="start"
+        android:shadowRadius="5"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:paddingRight="4dp"
+        android:paddingLeft="10dp"
+        android:textColor="#ffffff"
+        android:background="#80000000"
+        android:layout_below="@+id/imageView2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="30dp" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView2"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/title3"/>
 </RelativeLayout>
