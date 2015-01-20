@@ -95,7 +95,7 @@ public class PictureActivity extends ActionBarActivity {
             case R.id.action_valid:
                 //processTreeStep();
                 Intent intent = new Intent(this, TreeActvity.class);
-               // intent.putExtra("picture", picture);
+                intent.putExtra("picture", picture);
                 startActivity(intent);
                 break;
         }
@@ -119,19 +119,21 @@ public class PictureActivity extends ActionBarActivity {
             int height = displayMetrics.heightPixels;*/
 
             /* Redimensionnement de l image */
+
             Bitmap bitmap = android.provider.MediaStore.Images.Media.getBitmap(cr, uriImage);
-            BitmapFactory.Options options = new BitmapFactory.Options();
+            /*BitmapFactory.Options options = new BitmapFactory.Options();
+
             options.inSampleSize = calculateInSampleSize(options, width, height);
             BitmapFactory.decodeFile(bitmap.toString(), options);
-
+*/
             imageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap, width, height, false));
-            createPicture(bitmap);
+            createPicture(uriImage);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static int calculateInSampleSize(
+    /*public static int calculateInSampleSize(
             BitmapFactory.Options options, int reqWidth, int reqHeight) {
         // Raw height and width of image
         final int height = options.outHeight;
@@ -152,7 +154,7 @@ public class PictureActivity extends ActionBarActivity {
         }
 
         return inSampleSize;
-    }
+    }*/
 
     private void displayDialog(String text) {
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
@@ -167,8 +169,8 @@ public class PictureActivity extends ActionBarActivity {
         alertDialog.show();
     }
 
-    private void createPicture(Bitmap bitmap) {
-        picture = new Picture(bitmap);
+    private void createPicture(Uri uriImage) {
+        picture = new Picture(uriImage);
 
         picture.setAltitude(altitude);
         picture.setLatitude(latitude);

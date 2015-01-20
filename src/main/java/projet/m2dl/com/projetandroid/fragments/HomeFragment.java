@@ -69,11 +69,6 @@ public class HomeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        /*LinearLayout root = (LinearLayout) getActivity().findViewById(R.id.action_bar_root);
-
-        TextView txtPseudo = (TextView) root.findViewById(R.id.txtPseudo);
-        txtPseudo.setOnTouchListener(displayPseudo);*/
-
     }
 
     public View.OnTouchListener OnTouchPseudo = new View.OnTouchListener() {

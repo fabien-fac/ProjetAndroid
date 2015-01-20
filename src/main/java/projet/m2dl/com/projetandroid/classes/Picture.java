@@ -1,6 +1,7 @@
 package projet.m2dl.com.projetandroid.classes;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -13,7 +14,7 @@ import java.util.Stack;
  */
 public class Picture implements Parcelable {
 
-    private Bitmap picture;
+    private Uri pictureUri;
     private double latitude = 0.0;
     private double longitude = 0.0;
     private double altitude = 0.0;
@@ -27,8 +28,8 @@ public class Picture implements Parcelable {
     private String destinataire;
     private Stack<String> key = new Stack<String>();
 
-    public Picture(Bitmap picture) {
-        this.picture = picture;
+    public Picture(Uri pictureUri) {
+        this.pictureUri = pictureUri;
     }
 
     public Picture() {
@@ -59,12 +60,12 @@ public class Picture implements Parcelable {
         this.altitude = altitude;
     }
 
-    public Bitmap getPicture() {
-        return picture;
+    public Uri getPictureUri() {
+        return pictureUri;
     }
 
-    public void setPicture(Bitmap picture) {
-        this.picture = picture;
+    public void setPictureUri(Uri pictureUri) {
+        this.pictureUri = pictureUri;
     }
 
     public Date getDate() {
@@ -138,7 +139,7 @@ public class Picture implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        picture.writeToParcel(dest, 0);
+        dest.writeString(pictureUri.toString());
         dest.writeString(String.valueOf(latitude));
         dest.writeString(String.valueOf(longitude));
         dest.writeString(String.valueOf(altitude));
@@ -168,7 +169,7 @@ public class Picture implements Parcelable {
     };
 
     public Picture(Parcel in) {
-        this.picture = Bitmap.CREATOR.createFromParcel(in);
+        this.pictureUri = Uri.parse(in.readString());
         this.latitude = Double.parseDouble(in.readString());
         this.longitude = Double.parseDouble(in.readString());
         this.altitude = Double.parseDouble(in.readString());

@@ -9,16 +9,40 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/txtCurrentKey" />
+        android:id="@+id/txtCurrentKey"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="149dp"
+        android:layout_marginEnd="149dp" />
 
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/spinnerTree"
+        android:layout_marginTop="64dp"
+        android:spinnerMode="dropdown"
         android:layout_below="@+id/txtCurrentKey"
-        android:layout_toRightOf="@+id/txtCurrentKey"
-        android:layout_toEndOf="@+id/txtCurrentKey"
-        android:layout_marginTop="68dp"
-        android:spinnerMode="dropdown" />
+        android:layout_alignLeft="@+id/txtCurrentKey"
+        android:layout_alignStart="@+id/txtCurrentKey" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Précédent"
+        android:id="@+id/btnPrec"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="91dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Valider"
+        android:id="@+id/btnValider"
+        android:layout_alignBottom="@+id/btnPrec"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
