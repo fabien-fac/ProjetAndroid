@@ -62,6 +62,7 @@ public class TreeActvity extends ActionBarActivity {
                 txtKey.append(listKey.getItemAtPosition(position).toString());
                 depth++;
                 System.out.println("Depth :" + depth);
+                System.out.println("Pere de "+ currentLeaf + " : " + currentLeaf.getFather());
                 currentLeaf = (Leaf) listKey.getItemAtPosition(position);
                 populateListView();
             }

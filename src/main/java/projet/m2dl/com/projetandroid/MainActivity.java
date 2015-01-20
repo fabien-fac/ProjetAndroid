@@ -43,7 +43,6 @@ import android.widget.Toast;
 import android.widget.EditText;
 import projet.m2dl.com.projetandroid.fragments.HomeFragment;
 import projet.m2dl.com.projetandroid.fragments.SendActivity;
-import projet.m2dl.com.projetandroid.fragments.SignInDialog;
 
 public class MainActivity extends ActionBarActivity implements HomeFragment.OnFragmentInteractionListener {
 
@@ -184,25 +183,36 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
         }
     }
 
+    private boolean pseudoValide(){
+        TextView txtPseudo = (TextView) findViewById(R.id.txtPseudo);
+        System.out.println("Pseudo : " + txtPseudo.getText());
+        return !txtPseudo.getText().equals("Entrez votre pseudo");
+    }
+
     public void takePicture(View view) {
-        //Création d'un intent
-        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+        if (pseudoValide()){
+            //Création d'un intent
+            Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
 
-        String dirName = Environment.getExternalStorageDirectory()+File.separator+"BioPic";
-        File directory = new File(dirName);
-        if(!directory.exists()){
-            directory.mkdirs();
+            String dirName = Environment.getExternalStorageDirectory()+File.separator+"BioPic";
+            File directory = new File(dirName);
+            if(!directory.exists()){
+                directory.mkdirs();
+            }
+
+            String fileName = "BioPic" + (new Date()).toString() + ".jpg";
+            fileName = fileName.replaceAll(" ", "-");
+            //Création du fichier image
+            File photo = new File(directory, fileName);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photo));
+            imageUri = Uri.fromFile(photo);
+
+            //On lance l'intent
+            startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+        }else{
+            Toast.makeText(this, "Veuillez renseigner votre pseudo",
+                    Toast.LENGTH_LONG).show();
         }
-
-        String fileName = "BioPic" + (new Date()).toString() + ".jpg";
-        fileName = fileName.replaceAll(" ", "-");
-        //Création du fichier image
-        File photo = new File(directory, fileName);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photo));
-        imageUri = Uri.fromFile(photo);
-
-        //On lance l'intent
-        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
     }
 
     @Override
