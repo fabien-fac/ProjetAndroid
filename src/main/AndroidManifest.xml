@@ -28,6 +28,10 @@
             android:name=".fragments.SendActivity"
             android:label="@string/title_activity_send" >
         </activity>
+        <activity
+            android:name=".TreeActvity"
+            android:label="@string/title_activity_tree_actvity" >
+        </activity>
     </application>
 
 </manifest>

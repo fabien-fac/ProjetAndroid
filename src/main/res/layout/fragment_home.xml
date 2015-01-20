@@ -34,6 +34,9 @@
         android:text="Entrez votre pseudo"
         android:id="@+id/txtPseudo"
         android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"/><![CDATA[
 
+    />
+
+]]>
 </RelativeLayout>

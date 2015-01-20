@@ -1,13 +1,17 @@
 package projet.m2dl.com.projetandroid.classes;
 
 import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.util.Date;
+import java.util.Deque;
+import java.util.Stack;
 
 /**
  * Created by fabien on 15/01/15.
  */
-public class Picture {
+public class Picture implements Parcelable {
 
     private Bitmap picture;
     private double latitude = 0.0;
@@ -21,6 +25,7 @@ public class Picture {
     private int pointInteret_weight;
     private String commentaire;
     private String destinataire;
+    private Stack<String> key = new Stack<String>();
 
     public Picture(Bitmap picture) {
         this.picture = picture;
@@ -124,5 +129,56 @@ public class Picture {
 
     public void setDestinataire(String destinataire) {
         this.destinataire = destinataire;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        picture.writeToParcel(dest, 0);
+        dest.writeString(String.valueOf(latitude));
+        dest.writeString(String.valueOf(longitude));
+        dest.writeString(String.valueOf(altitude));
+        dest.writeString(String.valueOf(date.getTime()));
+        dest.writeString(user);
+        dest.writeString(String.valueOf(pointInteret_x));
+        dest.writeString(String.valueOf(pointInteret_y));
+        dest.writeString(String.valueOf(pointInteret_hight));
+        dest.writeString(String.valueOf(pointInteret_weight));
+        dest.writeString(commentaire);
+        dest.writeString(destinataire);
+    }
+
+    public static final Parcelable.Creator<Picture> CREATOR = new Parcelable.Creator<Picture>()
+    {
+        @Override
+        public Picture createFromParcel(Parcel source)
+        {
+            return new Picture(source);
+        }
+
+        @Override
+        public Picture[] newArray(int size)
+        {
+            return new Picture[size];
+        }
+    };
+
+    public Picture(Parcel in) {
+        this.picture = Bitmap.CREATOR.createFromParcel(in);
+        this.latitude = Double.parseDouble(in.readString());
+        this.longitude = Double.parseDouble(in.readString());
+        this.altitude = Double.parseDouble(in.readString());
+        this.date = new Date(Long.parseLong(in.readString()));
+        this.user = in.readString();
+        this.pointInteret_x = Float.parseFloat(in.readString());
+        this.pointInteret_y = Float.parseFloat(in.readString());
+        this.pointInteret_hight =Integer.parseInt(in.readString());
+        this.pointInteret_weight = Integer.parseInt(in.readString());
+        this.commentaire = in.readString();
+        this.destinataire = in.readString();
     }
 }
