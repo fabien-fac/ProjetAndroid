@@ -41,6 +41,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.EditText;
 import projet.m2dl.com.projetandroid.fragments.HomeFragment;
+import projet.m2dl.com.projetandroid.fragments.SendActivity;
 import projet.m2dl.com.projetandroid.fragments.SignInDialog;
 
 public class MainActivity extends ActionBarActivity implements HomeFragment.OnFragmentInteractionListener {
