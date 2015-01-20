@@ -1,5 +1,6 @@
 package projet.m2dl.com.projetandroid.fragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.app.ActionBarActivity;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
+import projet.m2dl.com.projetandroid.MainActivity;
 import projet.m2dl.com.projetandroid.R;
 import projet.m2dl.com.projetandroid.classes.Picture;
 
@@ -19,6 +21,8 @@ public class SendActivity extends ActionBarActivity {
     private EditText commentaireText;
     private Picture picture;
     private RadioButton radioButtonEmail;
+
+    private static final int SEND_EMAIL_ACTIVITY_REQUEST_CODE = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +84,7 @@ public class SendActivity extends ActionBarActivity {
 
         email.setType("message/rfc822");
 
-        startActivity(Intent.createChooser(email, "Choisissez un client de messagerie:"));
+        startActivityForResult(Intent.createChooser(email, "Choisissez un client de messagerie:"), SEND_EMAIL_ACTIVITY_REQUEST_CODE);
     }
 
     private String getEmailContentFromPicture(Picture picture){
@@ -131,5 +135,18 @@ public class SendActivity extends ActionBarActivity {
         sb.append(picture.getCommentaire());
 
         return sb.toString();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == SEND_EMAIL_ACTIVITY_REQUEST_CODE) {
+
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+
+            this.finish();
+        }
     }
 }

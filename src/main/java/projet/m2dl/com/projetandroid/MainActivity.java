@@ -219,8 +219,7 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
                 altitude = location.getAltitude();
             }
 
-            //Intent intent = new Intent(this, PictureActivity.class);
-            Intent intent = new Intent(this, SendActivity.class);
+            Intent intent = new Intent(this, PictureActivity.class);
             intent.putExtra("URI", imageUri.toString());
             intent.putExtra("latitude", latitude);
             intent.putExtra("longitude", longitude);
