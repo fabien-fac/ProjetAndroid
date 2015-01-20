@@ -1,40 +1,41 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#8cc63e"
     tools:context="projet.m2dl.com.projetandroid.fragments.HomeFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
-    <TextView
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="BioPhoto"
-        android:id="@+id/textView"
-        android:layout_alignParentTop="true"
+        android:id="@+id/imageView"
+        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="4dp"/>
+        android:src="@drawable/leaf2"/>
 
     <ImageButton
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:id="@+id/imageButton"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/camera"
+        android:src="@drawable/camera2"
         android:scaleType="fitXY"
         android:background="@android:color/transparent"
         android:onClick="takePicture"
-        android:layout_marginBottom="4dp"/>
+        />
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Entrez votre pseudo"
         android:id="@+id/txtPseudo"
         android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"/><![CDATA[
+        android:layout_centerHorizontal="true"/>
 
     />
 
