@@ -71,20 +71,65 @@ public class SendActivity extends ActionBarActivity {
 
     public void sendPictureByEmail(Picture _picture){
 
-        String subject = "Picture";
-        String message = String.valueOf(picture.getLatitude());
-        //String toCc = "email de destinataire en CC";
-        //String toCci = "email de destinataire en CCi";
+        String subject = "Picture BioPic";
         Intent email = new Intent(Intent.ACTION_SEND);
         email.putExtra(Intent.EXTRA_EMAIL, new String[]{ picture.getDestinataire()});
-        //email.putExtra(Intent.EXTRA_CC, new String[]{ toCc});
-        //email.putExtra(Intent.EXTRA_BCC, new String[]{toCci});
         //email.putExtra(Intent.EXTRA_STREAM, "file:///sdcard/file.pdf");
         email.putExtra(Intent.EXTRA_SUBJECT, subject);
-        email.putExtra(Intent.EXTRA_TEXT, message);
+        email.putExtra(Intent.EXTRA_TEXT, getEmailContentFromPicture(picture));
 
         email.setType("message/rfc822");
 
         startActivity(Intent.createChooser(email, "Choisissez un client de messagerie:"));
+    }
+
+    private String getEmailContentFromPicture(Picture picture){
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("Auteur : ");
+        sb.append(picture.getUser());
+
+        sb.append("\n");
+        sb.append("\n");
+
+        sb.append("Localisation : \n");
+
+        sb.append("latitude : ");
+        sb.append(picture.getLatitude());
+        sb.append("\n");
+
+        sb.append("longitude : ");
+        sb.append(picture.getLongitude());
+        sb.append("\n");
+
+        sb.append("altitude : ");
+        sb.append(picture.getAltitude());
+
+        sb.append("\n");
+        sb.append("\n");
+
+        sb.append("Date : ");
+        sb.append(picture.getDate());
+
+        sb.append("\n");
+        sb.append("\n");
+
+        sb.append("Point d'interet : \n");
+
+        sb.append("x : ");
+        sb.append(picture.getPointInteret_x());
+        sb.append("\n");
+
+        sb.append("y : ");
+        sb.append(picture.getPointInteret_y());
+        sb.append("\n");
+
+        sb.append("\n");
+        sb.append("\n");
+
+        sb.append("Commentaire :\n");
+        sb.append(picture.getCommentaire());
+
+        return sb.toString();
     }
 }
