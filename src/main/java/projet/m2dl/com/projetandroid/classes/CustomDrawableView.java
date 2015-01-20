@@ -53,10 +53,10 @@ public class CustomDrawableView extends View implements View.OnTouchListener{
             // opacity
             //p.setAlpha(0x80); //
             canvas.drawCircle(pos_x, pos_y, 100, p);
-            System.out.println("draw");
+           // System.out.println("draw");
         }
         else{
-            System.out.println("not draw");
+          //  System.out.println("not draw");
         }
     }
 

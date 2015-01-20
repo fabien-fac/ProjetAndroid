@@ -313,7 +313,7 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
     private void processNewLocation(Location location){
         if(location!=null) {
             this.location = location;
-            System.out.println(location.getAltitude() + " " + location.getLatitude() + " " + location.getLongitude());
+            //System.out.println(location.getAltitude() + " " + location.getLatitude() + " " + location.getLongitude());
         }
     }
 }

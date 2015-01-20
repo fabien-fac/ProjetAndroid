@@ -22,6 +22,11 @@ public class Leaf {
         this.father = father;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
+
     /**
      * @return the name
      */
