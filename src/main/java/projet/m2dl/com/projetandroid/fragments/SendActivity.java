@@ -116,7 +116,7 @@ public class SendActivity extends ActionBarActivity {
         sb.append("\n");
         sb.append("\n");
 
-        sb.append("Point d'interet : \n");
+        sb.append("Point d'intérêt : \n");
 
         sb.append("x : ");
         sb.append(picture.getPointInteret_x());
@@ -128,6 +128,8 @@ public class SendActivity extends ActionBarActivity {
 
         sb.append("\n");
         sb.append("\n");
+
+        sb.append("Clé de caractérisation : " + picture.getKey() +"\n");
 
         sb.append("Commentaire :\n");
         sb.append(picture.getCommentaire());

@@ -31,6 +31,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import projet.m2dl.com.projetandroid.classes.LeafParser;
@@ -97,7 +99,7 @@ public class PictureActivity extends ActionBarActivity {
         int id = item.getItemId();
         switch (id){
             case R.id.action_help:
-                displayDialog("Selectionner le point d'interet avec votre doigt puis validez votre choix.");
+                displayDialog("Sélectionnez le point d’intérêt avec votre doigt puis validez votre choix.");
                 break;
             case R.id.action_valid:
                 processTreeStep();
@@ -116,20 +118,11 @@ public class PictureActivity extends ActionBarActivity {
             int width = size.x;
             int height = size.y;
 
-           /* DisplayMetrics displayMetrics = new DisplayMetrics();
-            WindowManager wm = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE); // the results will be higher than using the activity context object or the getWindowManager() shortcut
-            wm.getDefaultDisplay().getMetrics(displayMetrics);
-            int width = displayMetrics.widthPixels;
-            int height = displayMetrics.heightPixels;*/
-
             /* Redimensionnement de l image */
-
             Bitmap bitmap = android.provider.MediaStore.Images.Media.getBitmap(cr, uriImage);
-
-
             imageView.setImageBitmap(rotatePicture(bitmap));
-           // imageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap, width, height, false));
             createPicture(uriImage);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -157,7 +150,6 @@ public class PictureActivity extends ActionBarActivity {
         mat.setRotate(rotateangle, (float) btmPic.getWidth() / 2, (float) btmPic.getHeight() / 2);
 
         File f = new File(uriImage.getPath());
-        System.out.println("FILEPATH : " + uriImage.getPath());
         Bitmap bmpPic = null;
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 2;
@@ -169,29 +161,6 @@ public class PictureActivity extends ActionBarActivity {
         }
         Bitmap bmpPic1 = Bitmap.createBitmap(bmpPic, 0, 0, bmpPic.getWidth(), bmpPic.getHeight(), mat, true);
         return bmpPic1;
-    }
-
-    public static int calculateInSampleSize(
-            BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        // Raw height and width of image
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-
-            final int halfHeight = height / 2;
-            final int halfWidth = width / 2;
-
-            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-            // height and width larger than the requested height and width.
-            while ((halfHeight / inSampleSize) > reqHeight
-                    && (halfWidth / inSampleSize) > reqWidth) {
-                inSampleSize *= 2;
-            }
-        }
-
-        return inSampleSize;
     }
 
     private void displayDialog(String text) {
@@ -214,7 +183,8 @@ public class PictureActivity extends ActionBarActivity {
         picture.setAltitude(altitude);
         picture.setLatitude(latitude);
         picture.setLongitude(longitude);
-        picture.setDate(new Date());
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        picture.setDate(dateFormat.format(new Date()));
     }
 
     public void setCoordinatesInterest(float pos_x, float pos_y){

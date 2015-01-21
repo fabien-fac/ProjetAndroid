@@ -67,8 +67,6 @@ public class TreeActvity extends ActionBarActivity {
                 }
                 txtKey.append(listKey.getItemAtPosition(position).toString());
                 depth++;
-                System.out.println("Depth :" + depth);
-                System.out.println("Pere de "+ currentLeaf + " : " + currentLeaf.getFather());
                 currentLeaf = (Leaf) listKey.getItemAtPosition(position);
                 populateListView();
             }
@@ -81,6 +79,7 @@ public class TreeActvity extends ActionBarActivity {
     public View.OnClickListener nextStep = new View.OnClickListener() {
         public void onClick(View arg0) {
             Intent intent = new Intent(context, SendActivity.class);
+            picture.setKey(txtKey.getText().toString());
             intent.putExtra("picture", picture);
             startActivity(intent);
 
@@ -97,7 +96,6 @@ public class TreeActvity extends ActionBarActivity {
                 }else{
                     txtKey.setText(txtKey.getText().subSequence(0, txtKey.getText().length() - (currentLeaf.getName().length()+2) ));
                 }
-                System.out.println("Pere de "+ currentLeaf + " : " + currentLeaf.getFather());
                 currentLeaf = currentLeaf.getFather();
                 depth--;
                 populateListView();
@@ -131,7 +129,7 @@ public class TreeActvity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_help_tree) {
-            displayDialog("Selectionner le type du point d'interet.");
+            displayDialog("Sélectionnez le type du point d'intérêt.");
             return true;
         }
 

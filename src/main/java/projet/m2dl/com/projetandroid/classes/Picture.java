@@ -18,7 +18,8 @@ public class Picture implements Parcelable {
     private double latitude = 0.0;
     private double longitude = 0.0;
     private double altitude = 0.0;
-    private Date date;
+    //private Date date;
+    private String date;
     private String user;
     private float pointInteret_x;
     private float pointInteret_y;
@@ -26,7 +27,7 @@ public class Picture implements Parcelable {
     private int pointInteret_weight;
     private String commentaire;
     private String destinataire;
-    private Stack<String> key = new Stack<String>();
+    private String key;
 
     public Picture(Uri pictureUri) {
         this.pictureUri = pictureUri;
@@ -68,11 +69,11 @@ public class Picture implements Parcelable {
         this.pictureUri = pictureUri;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -143,7 +144,8 @@ public class Picture implements Parcelable {
         dest.writeString(String.valueOf(latitude));
         dest.writeString(String.valueOf(longitude));
         dest.writeString(String.valueOf(altitude));
-        dest.writeString(String.valueOf(date.getTime()));
+        //String.valueOf(date.getTime())
+        dest.writeString(date);
         dest.writeString(user);
         dest.writeString(String.valueOf(pointInteret_x));
         dest.writeString(String.valueOf(pointInteret_y));
@@ -151,6 +153,7 @@ public class Picture implements Parcelable {
         dest.writeString(String.valueOf(pointInteret_weight));
         dest.writeString(commentaire);
         dest.writeString(destinataire);
+        dest.writeString(key);
     }
 
     public static final Parcelable.Creator<Picture> CREATOR = new Parcelable.Creator<Picture>()
@@ -173,7 +176,8 @@ public class Picture implements Parcelable {
         this.latitude = Double.parseDouble(in.readString());
         this.longitude = Double.parseDouble(in.readString());
         this.altitude = Double.parseDouble(in.readString());
-        this.date = new Date(Long.parseLong(in.readString()));
+        //new Date(Long.parseLong(in.readString()));
+        this.date = in.readString();
         this.user = in.readString();
         this.pointInteret_x = Float.parseFloat(in.readString());
         this.pointInteret_y = Float.parseFloat(in.readString());
@@ -181,5 +185,14 @@ public class Picture implements Parcelable {
         this.pointInteret_weight = Integer.parseInt(in.readString());
         this.commentaire = in.readString();
         this.destinataire = in.readString();
+        this.key = in .readString();
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }

@@ -23,7 +23,7 @@
 				</children>
 			</leaf>
 			<leaf>
-				<name>Felin</name>
+				<name>Félin</name>
 				<children>
 					<leaf>
 						<name>Chat</name>
@@ -39,7 +39,7 @@
 		</children>
 	</leaf>
 	<leaf>
-		<name>Vegetal</name>
+		<name>Végétal</name>
 		<children>
 			<leaf>
 				<name>Arbre</name>
@@ -75,10 +75,10 @@
 				<name>Champignon</name>
 				<children>
 					<leaf>
-						<name>Cepe</name>
+						<name>Cèpe</name>
 					</leaf>
 					<leaf>
-						<name>Trompete de la mort</name>
+						<name>Trompette de la mort</name>
 					</leaf>
 				</children>
 			</leaf>

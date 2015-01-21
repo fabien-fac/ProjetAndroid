@@ -77,11 +77,11 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Google spradsheets"
+            android:text="Google spreadsheets"
             android:id="@+id/radioButtonGoogle"
             android:layout_above="@+id/radioButton"
             android:enabled="false"
-         />
+            android:checked="false" />
 
     </RadioGroup>
 
@@ -89,7 +89,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Type d'envoie :"
+        android:text="Type d&apos;envoi :"
         android:id="@+id/textView2"
         android:layout_above="@+id/radioTypeEnvoie"
         android:layout_alignParentLeft="true"
