@@ -98,10 +98,7 @@ public class PictureActivity extends ActionBarActivity {
                 displayDialog("Selectionner le point d'interet avec votre doigt puis validez votre choix.");
                 break;
             case R.id.action_valid:
-                //processTreeStep();
-                Intent intent = new Intent(this, TreeActvity.class);
-                intent.putExtra("picture", picture);
-                startActivity(intent);
+                processTreeStep();
                 break;
         }
         return true;
@@ -225,12 +222,10 @@ public class PictureActivity extends ActionBarActivity {
     }
 
     public void processTreeStep(){
-        btnValidPosition.setVisible(false);
-        InputStream inputStream = getResources().openRawResource(R.raw.tree);
+        Intent intent = new Intent(this, TreeActvity.class);
+        intent.putExtra("picture", picture);
+        startActivity(intent);
 
-        LeafParser parser = new LeafParser();
-        parser.parseXmlInputStream(inputStream);
-
-        //TODO
+        this.finish();
     }
 }

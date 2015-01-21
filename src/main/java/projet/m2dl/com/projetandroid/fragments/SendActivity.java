@@ -143,8 +143,8 @@ public class SendActivity extends ActionBarActivity {
 
         if (requestCode == SEND_EMAIL_ACTIVITY_REQUEST_CODE) {
 
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+            //Intent intent = new Intent(this, MainActivity.class);
+            //startActivity(intent);
 
             this.finish();
         }

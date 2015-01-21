@@ -83,7 +83,10 @@ public class TreeActvity extends ActionBarActivity {
             Intent intent = new Intent(context, SendActivity.class);
             intent.putExtra("picture", picture);
             startActivity(intent);
+
+            ((TreeActvity)context).finish();
         }
+
     };
 
     public View.OnClickListener prec = new View.OnClickListener() {
