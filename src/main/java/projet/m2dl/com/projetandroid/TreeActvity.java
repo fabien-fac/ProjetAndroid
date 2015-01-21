@@ -11,9 +11,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -62,13 +64,18 @@ public class TreeActvity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                if (depth > 0) {
-                    txtKey.append("->");
+//&& !txtKey.getText().toString().substring(txtKey.getText().length()-2, txtKey.getText().length()).equals("->")
+                if (((Leaf)listKey.getItemAtPosition(position)).getChildren().isEmpty()){
+                    displayValidation((Leaf) listKey.getItemAtPosition(position));
+                } else {
+                    if (depth > 0) {
+                        txtKey.append("->");
+                    }
+                    txtKey.append(listKey.getItemAtPosition(position).toString());
+                    depth++;
+                    currentLeaf = (Leaf) listKey.getItemAtPosition(position);
+                    populateListView();
                 }
-                txtKey.append(listKey.getItemAtPosition(position).toString());
-                depth++;
-                currentLeaf = (Leaf) listKey.getItemAtPosition(position);
-                populateListView();
             }
         });
 
@@ -78,15 +85,24 @@ public class TreeActvity extends ActionBarActivity {
 
     public View.OnClickListener nextStep = new View.OnClickListener() {
         public void onClick(View arg0) {
+            valider();
+        }
+
+    };
+
+    public void valider(){
+        if (!txtKey.getText().toString().equals("")){
             Intent intent = new Intent(context, SendActivity.class);
             picture.setKey(txtKey.getText().toString());
             intent.putExtra("picture", picture);
             startActivity(intent);
 
             ((TreeActvity)context).finish();
+        } else {
+            Toast.makeText(TreeActvity.this, "Veuillez choisir au moins une valeur pour la clé de caractérisation",
+                    Toast.LENGTH_LONG).show();
         }
-
-    };
+    }
 
     public View.OnClickListener prec = new View.OnClickListener() {
         public void onClick(View arg0) {
@@ -102,6 +118,27 @@ public class TreeActvity extends ActionBarActivity {
             }
         }
     };
+
+    private void displayValidation (final Leaf newLeaf){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Vous êtes au bout de l'arbre de caractérisation. \nVoulez-vous valider cette clé : " + txtKey.getText().toString() + "->" + newLeaf.getName() + "?")
+                .setTitle("Validation");
+
+        builder.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                txtKey.append("->"+newLeaf.getName());
+                valider();
+            }
+        });
+        builder.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User cancelled the dialog
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 
     public void populateListView(){
         ArrayList<Leaf> listArray = new ArrayList<Leaf>();
