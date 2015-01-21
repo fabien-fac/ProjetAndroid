@@ -58,6 +58,8 @@ public class PictureActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_picture);
 
+        setTitle("Point d'intérêt");
+
         initComponents();
         getData();
         setPicture();

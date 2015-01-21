@@ -1,8 +1,8 @@
 package projet.m2dl.com.projetandroid.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,9 +11,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
-import java.io.File;
-
-import projet.m2dl.com.projetandroid.MainActivity;
 import projet.m2dl.com.projetandroid.R;
 import projet.m2dl.com.projetandroid.classes.Picture;
 
@@ -31,6 +28,8 @@ public class SendActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send);
 
+        setTitle("Envoi");
+
         emailText = (EditText) findViewById(R.id.et_email);
         commentaireText = (EditText) findViewById(R.id.et_commentaire);
         radioButtonEmail = (RadioButton) findViewById(R.id.radioButtonEmail);
@@ -42,9 +41,8 @@ public class SendActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_send, menu);
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -55,8 +53,8 @@ public class SendActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_help_send) {
+            displayDialog("Renseignez l'adresse mail du destinataire (optionnel), votre commentaire et cochez la case correspondante au type d'envoi voulu (seulement par mail pour le moment).");
         }
 
         return super.onOptionsItemSelected(item);
@@ -78,7 +76,7 @@ public class SendActivity extends ActionBarActivity {
     public void sendPictureByEmail(){
         String subject = "Picture BioPic";
         Intent email = new Intent(Intent.ACTION_SEND);
-        email.putExtra(Intent.EXTRA_EMAIL, new String[]{ picture.getDestinataire()});
+        email.putExtra(Intent.EXTRA_EMAIL, new String[]{picture.getDestinataire()});
         email.setType("application/image");
         email.putExtra(Intent.EXTRA_STREAM, picture.getPictureUri());
         email.putExtra(Intent.EXTRA_SUBJECT, subject);
@@ -142,11 +140,20 @@ public class SendActivity extends ActionBarActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == SEND_EMAIL_ACTIVITY_REQUEST_CODE) {
-
-            //Intent intent = new Intent(this, MainActivity.class);
-            //startActivity(intent);
-
             this.finish();
         }
+    }
+
+    private void displayDialog(String text) {
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Aide");
+        alertDialog.setMessage(text);
+        alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        alertDialog.setIcon(android.R.drawable.ic_menu_help);
+        alertDialog.show();
     }
 }
