@@ -5,14 +5,8 @@ import java.util.Date;
 import java.util.Locale;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.ContentResolver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -21,28 +15,17 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.EditText;
 import projet.m2dl.com.projetandroid.fragments.HomeFragment;
-import projet.m2dl.com.projetandroid.fragments.SendActivity;
 
 public class MainActivity extends ActionBarActivity implements HomeFragment.OnFragmentInteractionListener {
 
@@ -64,7 +47,6 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
     private static final int TWO_MINUTES = 1000 * 60 * 2;
     private Location location;
-    private String pseudo = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,8 +113,8 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return 3;
+            // Show 1 total pages.
+            return 1;
         }
 
         @Override
@@ -185,7 +167,6 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
 
     private boolean pseudoValide(){
         TextView txtPseudo = (TextView) findViewById(R.id.txtPseudo);
-        System.out.println("Pseudo : " + txtPseudo.getText());
         return !txtPseudo.getText().equals("Entrez votre pseudo");
     }
 
@@ -223,9 +204,11 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
                 && resultCode == Activity.RESULT_OK
                 && imageUri != null) {
 
+            TextView txtPseudo = (TextView) findViewById(R.id.txtPseudo);
             Double latitude = 0.0;
             Double longitude = 0.0;
             Double altitude = 0.0;
+            String username = txtPseudo.getText().toString();
 
             if(location != null){
                 latitude = location.getLatitude();
@@ -238,7 +221,7 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
             intent.putExtra("latitude", latitude);
             intent.putExtra("longitude", longitude);
             intent.putExtra("altitude", altitude);
-            intent.putExtra("Username", "toto");
+            intent.putExtra("Username", username);
             startActivity(intent);
         }
     }
