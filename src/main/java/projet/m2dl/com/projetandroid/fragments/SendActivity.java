@@ -1,8 +1,6 @@
 package projet.m2dl.com.projetandroid.fragments;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -32,6 +30,9 @@ public class SendActivity extends ActionBarActivity {
         emailText = (EditText) findViewById(R.id.et_email);
         commentaireText = (EditText) findViewById(R.id.et_commentaire);
         radioButtonEmail = (RadioButton) findViewById(R.id.radioButtonEmail);
+
+        Intent intent = getIntent();
+        picture = intent.getExtras().getParcelable("picture");
     }
 
 
@@ -58,9 +59,6 @@ public class SendActivity extends ActionBarActivity {
     }
 
     public void send(View view){
-
-        // TODO : récuperer la picture de l'activity précédente
-        picture = new Picture();
 
         String emailDestinaire = emailText.getText().toString();
         String commentaire = commentaireText.getText().toString();

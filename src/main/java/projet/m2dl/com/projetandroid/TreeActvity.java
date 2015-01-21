@@ -1,6 +1,7 @@
 package projet.m2dl.com.projetandroid;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import projet.m2dl.com.projetandroid.classes.Leaf;
 import projet.m2dl.com.projetandroid.classes.LeafParser;
 import projet.m2dl.com.projetandroid.classes.Picture;
+import projet.m2dl.com.projetandroid.fragments.SendActivity;
 
 
 public class TreeActvity extends ActionBarActivity {
@@ -31,7 +33,7 @@ public class TreeActvity extends ActionBarActivity {
     private ListView listKey;
     private ImageButton btnValidate, btnPrec;
     private int depth = 0;
-
+    private Context context = this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +80,9 @@ public class TreeActvity extends ActionBarActivity {
 
     public View.OnClickListener nextStep = new View.OnClickListener() {
         public void onClick(View arg0) {
-
+            Intent intent = new Intent(context, SendActivity.class);
+            intent.putExtra("picture", picture);
+            startActivity(intent);
         }
     };
 
