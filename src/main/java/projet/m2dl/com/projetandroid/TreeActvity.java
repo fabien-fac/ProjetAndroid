@@ -1,5 +1,7 @@
 package projet.m2dl.com.projetandroid;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -34,6 +36,8 @@ public class TreeActvity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setTitle("Détermination");
+
         setContentView(R.layout.activity_tree_actvity);
         txtKey = (TextView) findViewById(R.id.txtCurrentKey);
 
@@ -57,7 +61,7 @@ public class TreeActvity extends ActionBarActivity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 if (depth > 0) {
-                    txtKey.append("/");
+                    txtKey.append("->");
                 }
                 txtKey.append(listKey.getItemAtPosition(position).toString());
                 depth++;
@@ -84,7 +88,7 @@ public class TreeActvity extends ActionBarActivity {
                 if (depth==1){
                     txtKey.setText("");
                 }else{
-                    txtKey.setText(txtKey.getText().subSequence(0, txtKey.getText().length() - (currentLeaf.getName().length()+1) ));
+                    txtKey.setText(txtKey.getText().subSequence(0, txtKey.getText().length() - (currentLeaf.getName().length()+2) ));
                 }
                 System.out.println("Pere de "+ currentLeaf + " : " + currentLeaf.getFather());
                 currentLeaf = currentLeaf.getFather();
@@ -107,9 +111,8 @@ public class TreeActvity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_tree_actvity, menu);
-        return true;
+        getMenuInflater().inflate(R.menu.menu_tree, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -120,10 +123,24 @@ public class TreeActvity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_help_tree) {
+            displayDialog("Selectionner le type du point d'interet.");
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void displayDialog(String text) {
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Aide");
+        alertDialog.setMessage(text);
+        alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        alertDialog.setIcon(android.R.drawable.ic_menu_help);
+        alertDialog.show();
     }
 }
