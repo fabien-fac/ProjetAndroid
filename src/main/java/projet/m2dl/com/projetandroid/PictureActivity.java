@@ -9,7 +9,9 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.Point;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -24,6 +26,9 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
@@ -112,7 +117,7 @@ public class PictureActivity extends ActionBarActivity {
             int width = size.x;
             int height = size.y;
 
-            /*DisplayMetrics displayMetrics = new DisplayMetrics();
+           /* DisplayMetrics displayMetrics = new DisplayMetrics();
             WindowManager wm = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE); // the results will be higher than using the activity context object or the getWindowManager() shortcut
             wm.getDefaultDisplay().getMetrics(displayMetrics);
             int width = displayMetrics.widthPixels;
@@ -121,19 +126,53 @@ public class PictureActivity extends ActionBarActivity {
             /* Redimensionnement de l image */
 
             Bitmap bitmap = android.provider.MediaStore.Images.Media.getBitmap(cr, uriImage);
-            /*BitmapFactory.Options options = new BitmapFactory.Options();
 
-            options.inSampleSize = calculateInSampleSize(options, width, height);
-            BitmapFactory.decodeFile(bitmap.toString(), options);
-*/
-            imageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap, width, height, false));
+
+            imageView.setImageBitmap(rotatePicture(bitmap));
+           // imageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap, width, height, false));
             createPicture(uriImage);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    /*public static int calculateInSampleSize(
+    private Bitmap rotatePicture(Bitmap btmPic) {
+        Matrix mat = new Matrix();
+
+        ExifInterface exif = null;
+        try {
+            exif = new ExifInterface(uriImage.getPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String orientstring = exif.getAttribute(ExifInterface.TAG_ORIENTATION);
+        int orientation = orientstring != null ? Integer.parseInt(orientstring) : ExifInterface.ORIENTATION_NORMAL;
+        int rotateangle = 0;
+        if (orientation == ExifInterface.ORIENTATION_ROTATE_90)
+            rotateangle = 90;
+        if (orientation == ExifInterface.ORIENTATION_ROTATE_180)
+            rotateangle = 180;
+        if (orientation == ExifInterface.ORIENTATION_ROTATE_270)
+            rotateangle = 270;
+
+        mat.setRotate(rotateangle, (float) btmPic.getWidth() / 2, (float) btmPic.getHeight() / 2);
+
+        File f = new File(uriImage.getPath());
+        System.out.println("FILEPATH : " + uriImage.getPath());
+        Bitmap bmpPic = null;
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 2;
+
+        try {
+            bmpPic = BitmapFactory.decodeStream(new FileInputStream(f), null, options);
+        } catch (FileNotFoundException e) {
+           e.printStackTrace();
+        }
+        Bitmap bmpPic1 = Bitmap.createBitmap(bmpPic, 0, 0, bmpPic.getWidth(), bmpPic.getHeight(), mat, true);
+        return bmpPic1;
+    }
+
+    public static int calculateInSampleSize(
             BitmapFactory.Options options, int reqWidth, int reqHeight) {
         // Raw height and width of image
         final int height = options.outHeight;
@@ -154,7 +193,7 @@ public class PictureActivity extends ActionBarActivity {
         }
 
         return inSampleSize;
-    }*/
+    }
 
     private void displayDialog(String text) {
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
