@@ -8,9 +8,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.io.InputStream;
@@ -28,19 +27,20 @@ public class TreeActvity extends ActionBarActivity {
     private Leaf tree;
     private TextView txtKey;
     private ListView listKey;
-    private Button btnValidate, btnPrec;
+    private ImageButton btnValidate, btnPrec;
     private int depth = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_tree_actvity);
         txtKey = (TextView) findViewById(R.id.txtCurrentKey);
 
-        btnValidate = (Button) findViewById(R.id.btnValider);
+        btnValidate = (ImageButton) findViewById(R.id.btnValider);
         btnValidate.setOnClickListener(nextStep);
 
-        btnPrec = (Button) findViewById(R.id.btnPrec);
+        btnPrec = (ImageButton) findViewById(R.id.btnPrec);
         btnPrec.setOnClickListener(prec);
 
         InputStream inputStream = getResources().openRawResource(R.raw.tree);
