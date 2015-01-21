@@ -1,6 +1,8 @@
 package projet.m2dl.com.projetandroid.fragments;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,6 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
+
+import java.io.File;
 
 import projet.m2dl.com.projetandroid.MainActivity;
 import projet.m2dl.com.projetandroid.R;
@@ -67,22 +71,18 @@ public class SendActivity extends ActionBarActivity {
         picture.setCommentaire(commentaire);
 
         if(radioButtonEmail.isChecked()){
-            sendPictureByEmail(picture);
+            sendPictureByEmail();
         }
     }
 
-    public void sendPictureByEmail(Picture _picture){
-
+    public void sendPictureByEmail(){
         String subject = "Picture BioPic";
         Intent email = new Intent(Intent.ACTION_SEND);
         email.putExtra(Intent.EXTRA_EMAIL, new String[]{ picture.getDestinataire()});
-        email.setType("image/png");
-        /* Recuperer l'uri de la picture */
-        //email.putExtra(Intent.EXTRA_STREAM, "file:///sdcard/file.pdf");
+        email.setType("application/image");
+        email.putExtra(Intent.EXTRA_STREAM, picture.getPictureUri());
         email.putExtra(Intent.EXTRA_SUBJECT, subject);
         email.putExtra(Intent.EXTRA_TEXT, getEmailContentFromPicture(picture));
-
-        email.setType("message/rfc822");
 
         startActivityForResult(Intent.createChooser(email, "Choisissez un client de messagerie:"), SEND_EMAIL_ACTIVITY_REQUEST_CODE);
     }
