@@ -41,7 +41,7 @@ public class PictureActivity extends ActionBarActivity {
 
     private ImageView imageView;
     private Uri uriImage;
-    private String uersername;
+    private String username;
     private Double latitude;
     private Double longitude;
     private Double altitude;
@@ -72,7 +72,7 @@ public class PictureActivity extends ActionBarActivity {
         Intent intent = getIntent();
 
         uriImage = Uri.parse(intent.getStringExtra("URI"));
-        uersername = intent.getStringExtra("Username");
+        username = intent.getStringExtra("Username");
         latitude = intent.getDoubleExtra("latitude", 0.0);
         longitude = intent.getDoubleExtra("longitude", 0.0);
         altitude = intent.getDoubleExtra("altitude", 0.0);
@@ -211,6 +211,7 @@ public class PictureActivity extends ActionBarActivity {
     private void createPicture(Uri uriImage) {
         picture = new Picture(uriImage);
 
+        picture.setUser(username);
         picture.setAltitude(altitude);
         picture.setLatitude(latitude);
         picture.setLongitude(longitude);
