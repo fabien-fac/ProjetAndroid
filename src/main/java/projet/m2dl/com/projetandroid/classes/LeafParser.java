@@ -51,7 +51,7 @@ public class LeafParser {
                         leaf.getChildren().add(parse(new Leaf("", new ArrayList<Leaf>(), leaf), (Element) node));
                     }
                     else if(node.getNodeName().equals("children")){
-                        leaf.setChildren(parse(new Leaf(leaf.getName(), new ArrayList<Leaf>(), leaf), (Element) node).getChildren());
+                        leaf.setChildren(parse(new Leaf(leaf.getName(), new ArrayList<Leaf>(), leaf.getFather()), (Element) node).getChildren());
                     }
                     else if(node.getNodeName().equals("name")){
                         String name = node.getFirstChild().getNodeValue().trim();
@@ -68,12 +68,21 @@ public class LeafParser {
 
     private void displayLeaf(Leaf leaf, int deep){
         for(int i=0; i<deep; i++){
-            System.out.print("--");
+            System.out.print("   ");
         }
         if(deep > 0){
-            System.out.print("| ");
+            System.out.print("|-- ");
         }
-        System.out.println(leaf.getName() + " (father : " + leaf.getFather().getName()+ ")");
+        System.out.print(leaf.getName());
+        Leaf father = leaf.getFather();
+        System.out.print("(");
+        for(int i=0; i<deep; i++){
+            if(father!=null){
+                System.out.print(" -> "+father.getName());
+                father = father.getFather();
+            }
+        }
+        System.out.println(")");
         for(Leaf l : leaf.getChildren()){
             displayLeaf(l, deep+1);
         }
