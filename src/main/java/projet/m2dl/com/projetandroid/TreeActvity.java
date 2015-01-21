@@ -100,7 +100,6 @@ public class TreeActvity extends ActionBarActivity {
                 depth--;
                 populateListView();
             }
-            System.out.println("depth : " + depth);
         }
     };
 

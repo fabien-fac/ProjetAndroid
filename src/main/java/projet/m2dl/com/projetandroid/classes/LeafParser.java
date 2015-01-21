@@ -18,7 +18,6 @@ public class LeafParser {
 
     public Leaf parseXmlInputStream(InputStream xmlInputStream){
         try {
-            //File fXmlFile = new File("/home/user/Documents/tree.xml");
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(xmlInputStream);
@@ -26,12 +25,7 @@ public class LeafParser {
             Leaf leaf = new Leaf("root", new ArrayList<Leaf>());
             parse(leaf, doc.getDocumentElement());
 
-            for(Leaf l : leaf.getChildren()){
-                displayLeaf(l, 0);
-            }
-
             return leaf;
-
         } catch (Exception e) {
             e.printStackTrace();
             return null;
