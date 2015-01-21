@@ -78,6 +78,8 @@ public class SendActivity extends ActionBarActivity {
         String subject = "Picture BioPic";
         Intent email = new Intent(Intent.ACTION_SEND);
         email.putExtra(Intent.EXTRA_EMAIL, new String[]{ picture.getDestinataire()});
+        email.setType("image/png");
+        /* Recuperer l'uri de la picture */
         //email.putExtra(Intent.EXTRA_STREAM, "file:///sdcard/file.pdf");
         email.putExtra(Intent.EXTRA_SUBJECT, subject);
         email.putExtra(Intent.EXTRA_TEXT, getEmailContentFromPicture(picture));

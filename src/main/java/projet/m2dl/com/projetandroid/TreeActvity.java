@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -23,63 +24,85 @@ import projet.m2dl.com.projetandroid.classes.Picture;
 public class TreeActvity extends ActionBarActivity {
 
     private Picture picture;
-    private int currentDepth = 0;
     private Leaf currentLeaf;
-    private Spinner spinnerTree;
     private Leaf tree;
     private TextView txtKey;
+    private ListView listKey;
     private Button btnValidate, btnPrec;
+    private int depth = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tree_actvity);
-
         txtKey = (TextView) findViewById(R.id.txtCurrentKey);
 
         btnValidate = (Button) findViewById(R.id.btnValider);
-        //btnValidate.setOnClickListener();
+        btnValidate.setOnClickListener(nextStep);
 
         btnPrec = (Button) findViewById(R.id.btnPrec);
-        //btnPrec.setOnClickListener();
-
-        spinnerTree = (Spinner) findViewById(R.id.spinnerTree);
-        spinnerTree.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                txtKey.append(spinnerTree.getSelectedItem().toString());
-                currentDepth++;
-                //currentLeaf = spinnerTree.getSelectedItem()
-                populateSpinnerTree();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        Intent intent = getIntent();
+        btnPrec.setOnClickListener(prec);
 
         InputStream inputStream = getResources().openRawResource(R.raw.tree);
         LeafParser parser = new LeafParser();
         tree = parser.parseXmlInputStream(inputStream);
+        currentLeaf = tree;
 
-        //tree.findLeafByName("Chien").getName();
+        listKey = (ListView) findViewById(R.id.listKey);
 
-        populateSpinnerTree();
+        populateListView();
 
+        listKey.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                if (depth > 0) {
+                    txtKey.append("/");
+                }
+                txtKey.append(listKey.getItemAtPosition(position).toString());
+                depth++;
+                System.out.println("Depth :" + depth);
+                System.out.println("Pere de "+ currentLeaf + " : " + currentLeaf.getFather());
+                currentLeaf = (Leaf) listKey.getItemAtPosition(position);
+                populateListView();
+            }
+        });
+
+        Intent intent = getIntent();
         picture = intent.getExtras().getParcelable("picture");
     }
 
-    public void populateSpinnerTree(){
-        ArrayList<String> spinnerArray = new ArrayList<String>();
+    public View.OnClickListener nextStep = new View.OnClickListener() {
+        public void onClick(View arg0) {
 
-        Leaf tmpLeaf = tree;
-            for (Leaf curChild : tree.getChildren()) {
-                spinnerArray.add(curChild.getName());
-                System.out.println("leaf : " + curChild.getName());
+        }
+    };
+
+    public View.OnClickListener prec = new View.OnClickListener() {
+        public void onClick(View arg0) {
+            if (depth>0){
+                if (depth==1){
+                    txtKey.setText("");
+                }else{
+                    txtKey.setText(txtKey.getText().subSequence(0, txtKey.getText().length() - (currentLeaf.getName().length()+1) ));
+                }
+                System.out.println("Pere de "+ currentLeaf + " : " + currentLeaf.getFather());
+                currentLeaf = currentLeaf.getFather();
+                depth--;
+                populateListView();
             }
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, spinnerArray);
-        spinnerTree.setAdapter(spinnerArrayAdapter);
+            System.out.println("depth : " + depth);
+        }
+    };
+
+    public void populateListView(){
+        ArrayList<Leaf> listArray = new ArrayList<Leaf>();
+        Leaf tmpLeaf = currentLeaf;
+        for (Leaf curChild : currentLeaf.getChildren()) {
+            listArray.add(curChild);
+        }
+        ArrayAdapter<Leaf> spinnerArrayAdapter = new ArrayAdapter<Leaf>(this, android.R.layout.simple_spinner_dropdown_item, listArray);
+        listKey.setAdapter(spinnerArrayAdapter);
     }
 
     @Override
